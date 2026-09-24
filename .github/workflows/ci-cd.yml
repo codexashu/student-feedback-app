@@ -1,10 +1,13 @@
 name: Student Feedback CI/CD
 
-on:
+'on':
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   test:
