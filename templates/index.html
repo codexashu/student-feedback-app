@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Student Feedback Form</h1>
+
+        <form method="POST" class="feedback-form">
+            <label for="name">Student Name</label>
+            <input id="name" name="name" type="text" required>
+
+            <label for="course">Course</label>
+            <input id="course" name="course" type="text" required>
+
+            <label for="feedback">Feedback</label>
+            <textarea id="feedback" name="feedback" rows="5" required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <section class="submitted-feedback">
+            <h2>Submitted Feedback</h2>
+            {% if feedback_list %}
+                {% for item in feedback_list %}
+                    <article class="feedback-card">
+                        <h3>{{ item.name }}</h3>
+                        <p><strong>Course:</strong> {{ item.course }}</p>
+                        <p>{{ item.feedback }}</p>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p>No feedback submitted yet.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

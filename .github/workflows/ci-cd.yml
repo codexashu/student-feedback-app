@@ -1,0 +1,38 @@
+name: Student Feedback CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: pytest
+      - name: Build Docker image
+        run: docker build -t student-feedback-app .
+
+  deploy:
+    name: Deploy Application
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deployment placeholder
+        run: |
+          echo 'Tests passed successfully.'
+          echo 'Application is ready for deployment.'
