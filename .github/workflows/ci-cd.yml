@@ -2,12 +2,18 @@ name: Student Feedback CI/CD
 
 'on':
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+env:
+  PYTHONUNBUFFERED: '1'
 
 jobs:
   test:
@@ -16,26 +22,30 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
       - name: Run tests
-        run: pytest
+        run: python -m pytest -q
+
       - name: Build Docker image
-        run: docker build -t student-feedback-app .
+        run: docker build --tag student-feedback-app:ci .
 
   deploy:
     name: Deploy Application
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Deployment placeholder
         run: |
-          echo 'Tests passed successfully.'
-          echo 'Application is ready for deployment.'
+          echo 'CI passed successfully.'
+          echo 'Add provider-specific deployment commands here.'
