@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: student-feedback-app
+    runtime: docker
+    repo: https://github.com/codexashu/student-feedback-app
+    branch: main
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /

@@ -1,13 +1,25 @@
 # Student Feedback App
 
-A simple Flask web application that collects a student's name, course, and feedback, then displays submitted feedback on the page.
+A Flask student feedback application with NIET email validation, automated tests, Docker support, and GitHub Actions CI/CD.
+
+## Email requirement
+
+The form accepts only institute email addresses ending with `@niet.co.in`.
+
+Example:
+
+```text
+student@niet.co.in
+```
+
+Emails from other domains are rejected.
 
 ## Run locally
 
 ```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\\Scripts\\activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python app.py
 ```
 
@@ -16,7 +28,7 @@ Open http://127.0.0.1:5000.
 ## Run tests
 
 ```bash
-pytest
+python -m pytest -q
 ```
 
 ## Run with Docker
@@ -26,6 +38,13 @@ docker build -t student-feedback-app .
 docker run -p 5000:5000 student-feedback-app
 ```
 
-## CI/CD
+## Deploy on Render
 
-GitHub Actions installs dependencies, runs pytest, builds the Docker image, and executes a deployment placeholder after successful tests on the `main` branch. Replace the deployment placeholder with commands for the selected hosting provider.
+1. Sign in to Render.
+2. Choose **New > Blueprint**.
+3. Connect the `codexashu/student-feedback-app` repository.
+4. Select the `main` branch.
+5. Render reads `render.yaml` and builds the Docker service.
+6. Deploy the service.
+
+The GitHub Actions workflow runs tests and builds the Docker image on pushes and pull requests.

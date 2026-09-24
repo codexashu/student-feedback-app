@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - name: Deployment placeholder
+      - name: Deployment notice
         run: |
           echo 'CI passed successfully.'
-          echo 'Add provider-specific deployment commands here.'
+          echo 'Render deployment is configured through render.yaml.'
